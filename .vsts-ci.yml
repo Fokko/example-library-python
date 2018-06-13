@@ -1,0 +1,19 @@
+steps:
+- task: DockerCompose@0
+  displayName: Run Python tests
+  inputs:
+    dockerComposeCommand: |
+      run --rm spark make -C /app/ test
+- task: DockerCompose@0
+  displayName: Package JAR
+  inputs:
+    dockerComposeCommand: |
+      run --rm spark make -C /app/ build
+- task: DockerCompose@0
+  displayName: Copy to databricks
+  env:
+    DATABRICKS_TOKEN: $(databricks_token)
+    DATABRICKS_HOST: $(databricks_host)
+  inputs:
+    dockerComposeCommand: |
+      run --rm db bash -c '/mount/deploy.sh && databricks fs ls'
