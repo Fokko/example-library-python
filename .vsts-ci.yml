@@ -5,7 +5,7 @@ steps:
     dockerComposeCommand: |
       run --rm spark make -C /root/ test
 - task: DockerCompose@0
-  displayName: Package JAR
+  displayName: Package egg
   inputs:
     dockerComposeCommand: |
       run --rm spark make -C /root/ build
@@ -16,4 +16,4 @@ steps:
     DATABRICKS_HOST: $(databricks_host)
   inputs:
     dockerComposeCommand: |
-      run --rm db bash -c '/mount/deploy.sh && databricks fs ls'
+      run --rm db make -C /root/ upload
