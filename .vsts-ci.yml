@@ -3,12 +3,12 @@ steps:
   displayName: Run Python tests
   inputs:
     dockerComposeCommand: |
-      run --rm spark make -C /app/ test
+      run --rm spark make -C /root/ test
 - task: DockerCompose@0
   displayName: Package JAR
   inputs:
     dockerComposeCommand: |
-      run --rm spark make -C /app/ build
+      run --rm spark make -C /root/ build
 - task: DockerCompose@0
   displayName: Copy to databricks
   env:
