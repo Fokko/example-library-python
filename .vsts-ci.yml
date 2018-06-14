@@ -9,11 +9,11 @@ steps:
   inputs:
     dockerComposeCommand: |
       run --rm spark make -C /root/ build
-- task: DockerCompose@0
-  displayName: Copy to databricks
-  env:
-    DATABRICKS_TOKEN: $(databricks_token)
-    DATABRICKS_HOST: $(databricks_host)
-  inputs:
-    dockerComposeCommand: |
-      run --rm db make -C /root/ upload
+# - task: DockerCompose@0
+#   displayName: Copy to databricks
+#   env:
+#     DATABRICKS_TOKEN: $(databricks_token)
+#     DATABRICKS_HOST: $(databricks_host)
+#   inputs:
+#     dockerComposeCommand: |
+#       run --rm db make -C /root/ upload
