@@ -1,13 +1,18 @@
 
 test:
-	cd /app && pip install --user .[test] && pytest
+	cd /root && pip install --user .[test] && pytest
 
 build:
-	cd /app && python setup.py bdist_wheel
+	cd /root && python setup.py bdist_wheel
 
 upload:
-  echo "[server-login]" > ~/.pypirc
-  echo "repository=https://upload.pypi.org/legacy/" >> ~/.pypirc
-  echo "username=" ${PYPI_USER} >> ~/.pypirc
-  echo "password=" ${PYPI_PASSWORD} >> ~/.pypirc
-	twine upload dist/*
+	export DATABRICKS_TOKEN
+	export DATABRICKS_HOST
+	if [ -f "~/.databrickscfg" ]
+	then
+	  echo "Using supplied configuration"
+	else
+	  echo -en "${DATABRICKS_HOST}\n${DATABRICKS_TOKEN}" | databricks configure --token
+	fi
+	set -x
+	databricks fs ls
